@@ -10,8 +10,10 @@
 * Cache
 * Page Query
 
-## TODO
-* cache
+## How to start?
+```
+./bin/run.sh [cfg name or default]
+```
 
 ## Example
 ```
