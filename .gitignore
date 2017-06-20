@@ -105,3 +105,6 @@ ENV/
 
 # MAC
 .DS_Store
+
+# Redis
+*.rdb
