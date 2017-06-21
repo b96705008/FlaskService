@@ -13,6 +13,7 @@ def build_mongo_query_cond(args, init_cond={}):
     p_keys = filter(lambda k: k not in exclude_params, 
                     args.keys())
     
+    # string 
     for k in p_keys:
         values = args[k].split(',')
         if len(values) == 1:

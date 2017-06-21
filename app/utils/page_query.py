@@ -33,8 +33,6 @@ class PageQuery(object):
         if self.has_next:
             next_page['page'] = self.page + 1
             next_page['page_size'] = self.pagesize
-            next_page['next_page_url'] = '?page_size={}&page={}' \
-                .format(next_page['page_size'], next_page['page'])
 
         return next_page
 

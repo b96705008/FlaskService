@@ -33,12 +33,16 @@ service = Blueprint(HIPPO_NAME, __name__)
 # other config params
 EVENT_COLLECION = config.get('mongo', 'collection')
 DEFAULT_PAGE_SIZE = config.get('api', 'page_size')
+CACHE_TIMEOUT_SECS = config.get('cache', 'timeout')
+
 
 def make_cache_key():
   """Make a key that includes GET parameters."""
   return request.full_path
 
-@service.route('/actors/<actor_id>/events', methods=['GET'])#@cache.cached(key_prefix=make_cache_key, timeout=10)
+
+@service.route('/actors/<actor_id>/events', methods=['GET'])
+@cache.cached(key_prefix=make_cache_key, timeout=CACHE_TIMEOUT_SECS)
 def get_all_events(actor_id):
     event = mongo.db[EVENT_COLLECION]
     pagesize = int(request.args.get('_page_size', default=DEFAULT_PAGE_SIZE))

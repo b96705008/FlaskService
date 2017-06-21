@@ -26,7 +26,6 @@ http://127.0.0.1:5000/actors/1/events?page_size=2&page=1
 {
   "next_page": {
     "has_next": true, 
-    "next_page_url": "?page_size=2&page=2", 
     "page": 2, 
     "page_size": 2
   }, 
