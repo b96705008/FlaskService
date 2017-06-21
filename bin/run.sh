@@ -14,4 +14,4 @@ CONF_PATH=${SERVICE_HOME}/etc/${ENV}.cfg
 cd ${SERVICE_HOME}
 pwd
 
-python ${SERVICE_HOME}/app/mongo.py ${CONF_PATH}
+python ${SERVICE_HOME}/app/mongo_app.py ${CONF_PATH}
