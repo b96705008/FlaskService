@@ -6,7 +6,7 @@ import configparser
 from flask import Flask
 from flask import jsonify, make_response
 
-from env import configure_app
+from conf import configure_app
 from api import *
 
 

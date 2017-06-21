@@ -1,7 +1,6 @@
 #!/bin/sh
 
 ENV=default
-APP_NAME
 if [ -z ${1+x} ]; then 
 	echo "ENV is set to default"; 
 else 
