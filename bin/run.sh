@@ -9,9 +9,9 @@ else
 fi
 
 #SERVICE_HOME=
+export PYTHONPATH=${PYTHONPATH}:${SERVICE_HOME}/app
+
 CONF_PATH=${SERVICE_HOME}/etc/${ENV}.cfg
 
 cd ${SERVICE_HOME}
-pwd
-
-python ${SERVICE_HOME}/app/mongo_app.py ${CONF_PATH}
+python ${SERVICE_HOME}/sbin/mongo_app.py ${CONF_PATH}

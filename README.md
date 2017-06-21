@@ -12,7 +12,7 @@
 
 ## How to start?
 ```
-./bin/run.sh [cfg name or default]
+./bin/run.sh [cfg name or default.cfg]
 ```
 
 ## Example
