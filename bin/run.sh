@@ -1,6 +1,7 @@
 #!/bin/sh
 
 ENV=default
+APP_NAME
 if [ -z ${1+x} ]; then 
 	echo "ENV is set to default"; 
 else 
@@ -14,4 +15,4 @@ export PYTHONPATH=${PYTHONPATH}:${SERVICE_HOME}/app
 CONF_PATH=${SERVICE_HOME}/etc/${ENV}.cfg
 
 cd ${SERVICE_HOME}
-python ${SERVICE_HOME}/sbin/mongo_app.py ${CONF_PATH}
+python ${SERVICE_HOME}/sbin/query_app.py ${CONF_PATH}
