@@ -12,6 +12,11 @@ class PageQuery(object):
             .skip(self.skip) \
             .limit(self.limit)
 
+    @staticmethod
+    def __transform_doc(doc):
+        doc['_id'] = str(doc['_id'])
+        return doc
+
     @property
     def skip(self):
         return (self.page - 1) * self.pagesize
@@ -32,7 +37,7 @@ class PageQuery(object):
         return next_page
 
     def get_output(self):
-        results = list(self.page_query)
+        results = map(self.__transform_doc, self.page_query)
 
         if len(results) < self.limit:
             self.has_next = False
