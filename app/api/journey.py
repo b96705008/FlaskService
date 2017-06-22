@@ -11,7 +11,7 @@ def get_api(config, cache, mongo):
     HIPPO_NAME = config.get('hippo', 'name')
     EVENT_COLLECION = config.get('mongo', 'collection')
     DEFAULT_PAGE_SIZE = config.get('api', 'page_size')
-    CACHE_TIMEOUT_SECS = config.get('cache', 'timeout')
+    CACHE_TIMEOUT_SECS = config.getint('cache', 'timeout')
 
     # controller
     api = Blueprint(HIPPO_NAME, __name__)

@@ -20,11 +20,6 @@ class PageQuery(object):
     def limit(self):
         return self.pagesize + 1
 
-    @staticmethod
-    def map_doc(d): 
-        d['_id'] = str(d['_id'])
-        return d
-
     def __get_next_page(self):
         next_page = {
             'has_next': self.has_next
@@ -37,12 +32,19 @@ class PageQuery(object):
         return next_page
 
     def get_output(self):
-        results = map(self.map_doc, self.page_query)
+        results = list(self.page_query)
 
         if len(results) < self.limit:
             self.has_next = False
 
         results = results[:self.pagesize]
+        data_count = len(results)
         next_page = self.__get_next_page()
+        output = {
+            'data_count': data_count,
+            'result': results, 
+            'next_page': next_page
+        }
 
-        return {'result': results, 'next_page': next_page}
+        return output
+

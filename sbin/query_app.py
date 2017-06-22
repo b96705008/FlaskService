@@ -35,4 +35,4 @@ if __name__ == '__main__':
     PORT = config.getint('client', 'port')
     URL_PREFIX = '/' + config.get('api', 'url_prefix')
     app.register_blueprint(journey_api, url_prefix=URL_PREFIX)
-    app.run(debug=True, host=HOST, port=PORT)
+    app.run(debug=False, host=HOST, port=PORT)
