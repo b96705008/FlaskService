@@ -8,38 +8,38 @@ from utils import PageQuery, build_mongo_query_cond
 
 def get_api(config, cache, mongo):
     # config
-    HIPPO_NAME = config.get('hippo', 'name')
-    EVENT_COLLECION = config.get('mongo', 'collection')
-    DEFAULT_PAGE_SIZE = config.get('api', 'page_size')
+    API_NAME = config.get('api_journey', 'name')
+    EVENT_COLLECION = config.get('api_journey', 'collection')
+    DEFAULT_PAGE_SIZE = config.get('api_journey', 'page_size')
     CACHE_TIMEOUT_SECS = config.getint('cache', 'timeout')
 
     # controller
-    api = Blueprint(HIPPO_NAME, __name__)
+    ctrler = Blueprint(API_NAME, __name__)
 
     def make_cache_key():
       """Make a key that includes GET parameters."""
       return request.full_path
 
     # route
-    @api.route('/actors/<actor_id>/events', methods=['GET'])
+    @ctrler.route('/actors/<actor_id>/events', methods=['GET'])
     @cache.cached(key_prefix=make_cache_key, timeout=CACHE_TIMEOUT_SECS)
     def get_all_events(actor_id):
-        event = mongo.db[EVENT_COLLECION]
+        event_coll = mongo.db[EVENT_COLLECION]
         pagesize = int(request.args.get('_page_size', default=DEFAULT_PAGE_SIZE))
         page = int(request.args.get('_page', default=1))
-        
+
         # parse condition
         cond = build_mongo_query_cond(request.args, {
                 'actor.id': actor_id
-            }) 
+            })
 
         # query mongodb
-        query = event \
+        query = event_coll \
             .find(cond) \
             .sort('action.time', -1)
-        
+
         page_query = PageQuery(pagesize, page, query)
         output = page_query.get_output()
         return jsonify(output)
 
-    return api
+    return {'prefix': '/'+API_NAME, 'ctrler': ctrler}

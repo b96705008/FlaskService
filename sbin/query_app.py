@@ -15,15 +15,17 @@ conf_path = sys.argv[1]
 config = configparser.ConfigParser()
 config.read(conf_path)
 
-# flask app 
+# flask app
 app = Flask(__name__)
 tools = configure_app(app, config)
 cache = tools['cache']
 mongo = tools['mongo']
 
-# journey query controller
-journey_api = get_journey_api(config, cache, mongo)
-
+# API
+apis = []
+## add apis
+apis.append(get_todo_api(config, cache, mongo))
+apis.append(get_journey_api(config, cache, mongo))
 
 @app.errorhandler(404)
 def not_found(error):
@@ -33,6 +35,9 @@ def not_found(error):
 if __name__ == '__main__':
     HOST = config.get('client', 'host')
     PORT = config.getint('client', 'port')
-    URL_PREFIX = '/' + config.get('api', 'url_prefix')
-    app.register_blueprint(journey_api, url_prefix=URL_PREFIX)
+    # journey
+    for api in apis:
+        print('register API: {}'.format(api['prefix']))
+        app.register_blueprint(api['ctrler'], url_prefix=api['prefix'])
+
     app.run(debug=False, host=HOST, port=PORT)

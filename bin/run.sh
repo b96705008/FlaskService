@@ -1,11 +1,11 @@
 #!/bin/sh
 
 ENV=default
-if [ -z ${1+x} ]; then 
-	echo "ENV is set to default"; 
-else 
+if [ -z ${1+x} ]; then
+	echo "ENV is set to default";
+else
 	ENV=$1
-	echo "var is set to '$1'"; 
+	echo "var is set to '$1'";
 fi
 
 #SERVICE_HOME=
