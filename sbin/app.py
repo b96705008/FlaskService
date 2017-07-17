@@ -17,23 +17,11 @@ config.read(conf_path)
 
 # flask app
 app = Flask(__name__)
-tools, apis = configure_app(app, config)
-auth = tools['auth']
+_, apis = configure_app(app, config)
 
 @app.errorhandler(404)
 def not_found(error):
     return make_response(jsonify({'error': 'Not found'}), 404)
-
-@auth.get_password
-def get_password(username):
-    # fetch pwd from db
-    if username == 'root':
-        return '1234'
-    return None
-
-@auth.error_handler
-def unauthorized():
-    return make_response(jsonify({'error': 'Unauthorized access'}), 401)
 
 
 if __name__ == '__main__':

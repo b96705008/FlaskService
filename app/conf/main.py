@@ -2,6 +2,7 @@
 from flask_cors import CORS
 from flask_httpauth import HTTPBasicAuth
 
+from auth import configure_auth
 from cache import configure_cache
 from mongo import configure_mongo
 from apis import load_apis
@@ -12,7 +13,7 @@ def configure_app(app, config):
     CORS(app) # cross domain
 
     tools = {
-        'auth': HTTPBasicAuth(),
+        'auth': configure_auth(app, config),
         'cache': configure_cache(app, config),
         'mongo': configure_mongo(config)
     }
