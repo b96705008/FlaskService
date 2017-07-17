@@ -1,15 +1,15 @@
 from __future__ import print_function
 from __future__ import unicode_literals
 
-from flask import Blueprint, request, jsonify, abort, make_response, url_for
-
-from model import Task
+from flask import Blueprint, request, jsonify, abort, make_response, url_for, current_app
 
 
-def get_api(config, cache, mongo):
+def get_api(config, tools, models):
     # config
     API_NAME = config.get('api_todo', 'name')
-    task_model = Task()
+    cache = tools['cache']
+    mongo = tools['mongo']
+    task_model = models['tasks']
 
     # controller
     ctrler = Blueprint(API_NAME, __name__)
@@ -20,7 +20,7 @@ def get_api(config, cache, mongo):
         return jsonify({'tasks': tasks})
 
 
-    @ctrler.route('/tasks/<int:task_id>', methods=['GET'])
+    @ctrler.route('/tasks/<task_id>', methods=['GET'])
     def get_task(task_id):
         task = task_model.find_by_id(task_id)
         if task is None:
@@ -32,10 +32,12 @@ def get_api(config, cache, mongo):
     def create_task():
         content = request.get_json()
         task = task_model.create(content)
+        if task is None:
+            abort(400)
         return jsonify({'task': task}), 201
 
 
-    @ctrler.route('/tasks/<int:task_id>', methods=['PUT'])
+    @ctrler.route('/tasks/<task_id>', methods=['PUT'])
     def update_task(task_id):
         if not request.json:
             abort(400)
@@ -48,7 +50,7 @@ def get_api(config, cache, mongo):
             return jsonify({'task': task})
 
 
-    @ctrler.route('/tasks/<int:task_id>', methods=['DELETE'])
+    @ctrler.route('/tasks/<task_id>', methods=['DELETE'])
     def delete_task(task_id):
         is_success = task_model.remove_by_id(task_id)
         if is_success:
@@ -58,4 +60,3 @@ def get_api(config, cache, mongo):
 
 
     return {'prefix': '/'+API_NAME, 'ctrler': ctrler}
-    

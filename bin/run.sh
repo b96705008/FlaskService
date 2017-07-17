@@ -14,4 +14,4 @@ export PYTHONPATH=${PYTHONPATH}:${SERVICE_HOME}/app
 CONF_PATH=${SERVICE_HOME}/etc/${ENV}.cfg
 
 cd ${SERVICE_HOME}
-python ${SERVICE_HOME}/sbin/query_app.py ${CONF_PATH}
+python ${SERVICE_HOME}/sbin/app.py ${CONF_PATH}

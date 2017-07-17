@@ -1,1 +1,1 @@
-from configure import configure_app
+from main import configure_app
