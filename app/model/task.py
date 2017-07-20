@@ -3,10 +3,10 @@ from __future__ import unicode_literals
 
 from bson import ObjectId
 
-from utils.model import BaseModel
+from utils.model import MongoDBModel
 
 
-class TaskModel(BaseModel):
+class TaskModel(MongoDBModel):
     fields = ['title', 'description', 'done']
 
     def on_init(self):

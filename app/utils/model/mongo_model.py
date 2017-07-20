@@ -6,7 +6,7 @@ from bson import ObjectId
 # https://stackoverflow.com/questions/20001229/how-to-get-posted-json-in-flask
 # http://codehandbook.org/pymongo-tutorial-crud-operation-mongodb/
 
-class BaseModel(object):
+class MongoDBModel(object):
     fields = None
 
     def __init__(self, collection):

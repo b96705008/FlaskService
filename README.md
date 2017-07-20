@@ -1,13 +1,20 @@
-# Simple Query Service in python (API)
-## App Structure
+# API app using Flask and MongoDB
+## Structure
 * app: api server code
 * bin: start server script
 * etc: config file
+
+### app folder
+* app/conf: flask app initial setting (cache, mongo, auth...)
+* app/model: model which connect to MongoDB (or others)
+* app/api: flask blueprint route and controller
+* app/utils: model, page query related lib
 
 ## Functions
 * PyMongo
 * CORS
 * Cache
+* Auth
 * Page Query
 
 ## How to start?
@@ -22,7 +29,110 @@ export SERVICE_NAME=${PWD}
 ./bin/run.sh [cfg name or default.cfg]
 ```
 
-## Example
+## REST Example (todo API)
+
+### List tasks
+```
+GET http://localhost:5000/todo/tasks
+```
+* response
+```
+{
+    "tasks": [
+        {
+            "_id": "59702b54c412980aaa5aad91",
+            "description": "Milk, Cheese, Pizza, Fruit, Tylenol",
+            "done": false,
+            "title": "Buy groceries"
+        },
+        {
+            "_id": "59702b54c412980aaa5aad92",
+            "description": "Need to find a good Python tutorial on the web",
+            "done": false,
+            "title": "Learn Python"
+        }
+    ]
+}
+```
+
+### Get task by id
+```
+GET http://localhost:5000/todo/tasks/59702b54c412980aaa5aad91
+```
+* response
+```
+{
+    "task": {
+        "_id": "59702b54c412980aaa5aad91",
+        "description": "Milk, Cheese, Pizza, Fruit, Tylenol",
+        "done": false,
+        "title": "Buy groceries"
+    }
+}
+```
+
+### Create task
+```
+POST http://localhost:5000/todo/tasks
+```
+* body
+```
+{
+    "title": "Love story",
+    "description": "So great!",
+    "done": false,
+    "xxxx": "XXXXX"
+}
+```
+* response
+```
+{
+    "task": {
+        "_id": "59702bbdc412980aaa5aad93",
+        "description": "So great!",
+        "done": false,
+        "title": "Love story"
+    }
+}
+```
+
+### Update task by id
+```
+PUT http://localhost:5000/todo/tasks/59702bbdc412980aaa5aad93
+```
+* body
+```
+{
+    "description": "Wow!",
+    "done": true,
+    "title": "Spark!",
+    "error": "will not be updated"
+}
+```
+* response
+```
+{
+    "task": {
+        "_id": "59702bbdc412980aaa5aad93",
+        "description": "Wow!",
+        "done": true,
+        "title": "Spark!"
+    }
+}
+```
+
+### Delete task by id
+```
+DELETE http://localhost:5000/todo/tasks/59702bbdc412980aaa5aad93
+```
+* response
+```
+{
+    "is_success": true
+}
+```
+
+## Page Query Example (task API)
 
 ### Simple query
 ```

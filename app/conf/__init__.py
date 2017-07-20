@@ -1,1 +1,1 @@
-from main import configure_app
+from index import configure_app

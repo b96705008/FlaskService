@@ -1,1 +1,1 @@
-from base_model import BaseModel
+from mongo_model import MongoDBModel

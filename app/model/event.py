@@ -3,11 +3,11 @@ from __future__ import unicode_literals
 
 from bson import ObjectId
 
-from utils.model import BaseModel
+from utils.model import MongoDBModel
 from utils.query import PageQuery
 
 
-class EventModel(BaseModel):
+class EventModel(MongoDBModel):
     fields = ['actor', 'action', 'object', 'channel']
 
     def query_by_page(self, cond, pagesize, page):
