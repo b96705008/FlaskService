@@ -5,6 +5,7 @@ from flask_httpauth import HTTPBasicAuth
 from auth import configure_auth
 from cache import configure_cache
 from mongo import configure_mongo
+from kafka_client import configure_kafka
 from apis import load_apis
 from models import load_models
 
@@ -15,7 +16,8 @@ def configure_app(app, config):
     tools = {
         'auth': configure_auth(app, config),
         'cache': configure_cache(app, config),
-        'mongo': configure_mongo(config)
+        'mongo': configure_mongo(config),
+        'kafka': configure_kafka(config)
     }
 
     models = load_models(tools['mongo'])

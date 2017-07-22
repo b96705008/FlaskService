@@ -3,6 +3,8 @@ from __future__ import unicode_literals
 
 from flask import Blueprint, request, jsonify
 
+import json
+from kafka import KafkaConsumer, KafkaProducer
 from utils.query import build_mongo_query_cond
 
 
@@ -14,6 +16,7 @@ def get_api(config, tools, models):
     cache = tools['cache']
     mongo = tools['mongo']
     auth = tools['auth']
+    kafka_client = tools['kafka']
     event_model = models['events']
 
     # controller
@@ -42,6 +45,14 @@ def get_api(config, tools, models):
     @auth.login_required
     def list_all_events():
         return jsonify({'events': [e for e in event_model.find()]})
+
+
+    @ctrler.route('/events', methods=['POST'])
+    def send_new_event():
+        # async operation
+        event = request.get_json()
+        kafka_client.send_msg(event)
+        return jsonify({'status': 'message is sent to backend for processing', 'event': event}), 201
 
 
     return {'prefix': '/'+API_NAME, 'ctrler': ctrler}
