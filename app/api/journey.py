@@ -16,7 +16,7 @@ def get_api(config, tools, models):
     cache = tools['cache']
     mongo = tools['mongo']
     auth = tools['auth']
-    kafka_client = tools['kafka']
+    pubsub = tools['pubsub']
     event_model = models['events']
 
     # controller
@@ -51,7 +51,7 @@ def get_api(config, tools, models):
     def send_new_event():
         # async operation
         event = request.get_json()
-        kafka_client.send_msg(event)
+        pubsub.publish(event)
         return jsonify({'status': 'message is sent to backend for processing', 'event': event}), 201
 
 

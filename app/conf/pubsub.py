@@ -22,7 +22,7 @@ class Consumer(Thread):
             print (message)
 
 
-class MessageClient(object):
+class KafkaPubSubClient(object):
 
     def __init__(self, config):
         kafka_host = config.get('kafka', 'bootstrap_servers')
@@ -35,12 +35,11 @@ class MessageClient(object):
         self.consumer = Consumer(config)
         self.consumer.start()
 
-    def send_msg(self, pub_obj):
-        print('ready to sent msg...')
+    def publish(self, pub_obj):
         self.producer.send(self.pub_topic, json.dumps(pub_obj))
 
 
 # connect kafka consumer and producer
 def configure_kafka(config):
-    client = MessageClient(config)
+    client = KafkaPubSubClient(config)
     return client
