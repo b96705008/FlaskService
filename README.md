@@ -3,6 +3,7 @@
 * app: api server code
 * bin: start server script
 * etc: config file
+* sbin: entry app python file
 
 ### app folder
 * app/conf: flask app initial setting (cache, mongo, auth...)
@@ -13,9 +14,12 @@
 ## Functions
 * PyMongo
 * CORS
-* Cache
+* Cache (local or redis)
 * Auth
 * Page Query
+
+### TODO
+* Process async message using Kafka
 
 ## How to start?
 
