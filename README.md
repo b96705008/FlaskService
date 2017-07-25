@@ -136,11 +136,11 @@ DELETE http://localhost:5000/todo/tasks/59702bbdc412980aaa5aad93
 }
 ```
 
-## Page Query Example (task API)
+## Page Query Example (journey API)
 
 ### Simple query
 ```
-http://127.0.0.1:5000/actors/1/events?page_size=2&page=1
+http://127.0.0.1:5000/journey/actors/1/events?page_size=2&page=1
 ```
 
 ```
