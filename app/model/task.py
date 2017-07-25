@@ -7,10 +7,10 @@ from utils.model import MongoDBModel
 
 
 class TaskModel(MongoDBModel):
+    coll_name = 'tasks'
     fields = ['title', 'description', 'done']
 
     def on_init(self):
-        print('Refresh task data...')
         # clean the storage
         self.collection.remove()
 

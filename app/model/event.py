@@ -8,6 +8,7 @@ from utils.query import PageQuery
 
 
 class EventModel(MongoDBModel):
+    coll_name = 'events'
     fields = ['actor', 'action', 'object', 'channel']
 
     def query_by_page(self, cond, pagesize, page):

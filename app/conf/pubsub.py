@@ -1,3 +1,6 @@
+from __future__ import print_function
+from __future__ import unicode_literals
+
 from threading import Thread
 from kafka import KafkaConsumer, KafkaProducer
 import json

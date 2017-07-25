@@ -3,19 +3,17 @@ from __future__ import unicode_literals
 
 from model import *
 
-MODEL_TYPES = ['tasks', 'events']
 
-def load_models(mongo):
+def load_models(tools):
     models = {}
-    for name in MODEL_TYPES:
-        try:
-            collection = mongo.db[name]
-            if name == 'tasks':
-                models[name] = TaskModel(collection)
-            elif name == 'events':
-                models[name] = EventModel(collection)
+    mongo = tools['mongo']
+    mod = __import__('model')
+    model_classes = filter(lambda m: m[-5:] == 'Model', dir(mod))
 
-        except Exception as err:
-            print(err)
+    for mc in model_classes:
+        Model = getattr(mod, mc)
+        name = Model.coll_name
+        collection = mongo.db[name]
+        models[name] = Model(collection)
 
     return models

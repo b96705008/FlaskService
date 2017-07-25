@@ -7,6 +7,7 @@ from bson import ObjectId
 # http://codehandbook.org/pymongo-tutorial-crud-operation-mongodb/
 
 class MongoDBModel(object):
+    coll_name = None
     fields = None
 
     def __init__(self, collection):
