@@ -1,7 +1,7 @@
 {
 	"variables": [],
 	"info": {
-		"name": "Hippo Query",
+		"name": "FlaskService",
 		"_postman_id": "af7f5010-325e-3592-61f7-3ea4d5c44b52",
 		"description": "",
 		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json"
