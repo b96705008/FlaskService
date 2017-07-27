@@ -40,7 +40,7 @@ def configure_app(app, config):
         register_subscribers(config, tools, models)
 
     if config.getboolean('hippo', 'refresh_data'):
-        init_tasks(models)
-        init_events(models)
+        #init_tasks(models)
+        #init_events(models)
 
     return tools, apis

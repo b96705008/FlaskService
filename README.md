@@ -1,251 +1,41 @@
-# API app using Flask and MongoDB
-## Structure
-* app: api server code
-* bin: start server script
-* etc: config file
-* sbin: entry app python file
+# Exercise: implement the journey and todo API
 
-### app folder
-* app/conf: flask app initial setting (cache, mongo, auth...)
-* app/model: model which connect to MongoDB (or others)
-* app/api: flask blueprint route and controller
-* app/subscriber: subscribers which process async message from Kafka
-* app/utils: mongodb, kafka, paginator related utilities
+## STEP 1: Check the etc config
+* hippo.refresh_data: if true, we can refresh model data at start
+* mongo: check mongo URI and db name
 
-## Functions
-* PyMongo
-* CORS
-* Cache (local or Redis)
-* Auth
-* Page Query
-* PubSub (Process async message using Kafka)
+## STEP 2: Develop task api (REST)
 
-## How to start?
+### STEP 2-1: Implement task model
+1. implement app/model/task.py
+2. uncomment app/model/__init__.py (from task import TaskModel)
 
-1. Set this app folder root path
-```
-export SERVICE_NAME=${PWD}
-```
+### STEP 2-2: Implement todo api
+1. implement app/api/todo.py
+2. uncomment app/api/__init__.py (from todo import get_api as get_todo_api)
 
-2. Start app with config
-```
-./bin/run.sh [cfg name or default.cfg]
-```
+### STEP 2-3: Using init tasks
+* uncomment "init_tasks(models)" in app/conf/index.py
 
-## REST Example (todo API)
+### STEP 2-4: Try todo api using POSTMAN
+1. import "test/FlaskService.postman_collection.json" to POSTMAN
+2. start api
+3. try list, get, create, update, delete
 
-### List tasks
-```
-GET http://localhost:5000/todo/tasks
-```
-* response
-```
-{
-    "tasks": [
-        {
-            "_id": "59702b54c412980aaa5aad91",
-            "description": "Milk, Cheese, Pizza, Fruit, Tylenol",
-            "done": false,
-            "title": "Buy groceries"
-        },
-        {
-            "_id": "59702b54c412980aaa5aad92",
-            "description": "Need to find a good Python tutorial on the web",
-            "done": false,
-            "title": "Learn Python"
-        }
-    ]
-}
-```
 
-### Get task by id
-```
-GET http://localhost:5000/todo/tasks/59702b54c412980aaa5aad91
-```
-* response
-```
-{
-    "task": {
-        "_id": "59702b54c412980aaa5aad91",
-        "description": "Milk, Cheese, Pizza, Fruit, Tylenol",
-        "done": false,
-        "title": "Buy groceries"
-    }
-}
-```
+## STEP 3: Develop journey api (Page Query)
 
-### Create task
-```
-POST http://localhost:5000/todo/tasks
-```
-* body
-```
-{
-    "title": "Love story",
-    "description": "So great!",
-    "done": false,
-    "xxxx": "XXXXX"
-}
-```
-* response
-```
-{
-    "task": {
-        "_id": "59702bbdc412980aaa5aad93",
-        "description": "So great!",
-        "done": false,
-        "title": "Love story"
-    }
-}
-```
+### STEP 3-1: Implement event model
+1. implement app/model/event.py
+2. uncomment app/model/__init__.py (from event import EventModel)
 
-### Update task by id
-```
-PUT http://localhost:5000/todo/tasks/59702bbdc412980aaa5aad93
-```
-* body
-```
-{
-    "description": "Wow!",
-    "done": true,
-    "title": "Spark!",
-    "error": "will not be updated"
-}
-```
-* response
-```
-{
-    "task": {
-        "_id": "59702bbdc412980aaa5aad93",
-        "description": "Wow!",
-        "done": true,
-        "title": "Spark!"
-    }
-}
-```
+### STEP 3-2: Implement journey api
+1. implement app/api/journey.py
+2. uncomment app/api/__init__.py (from journey import get_api as get_journey_api)
 
-### Delete task by id
-```
-DELETE http://localhost:5000/todo/tasks/59702bbdc412980aaa5aad93
-```
-* response
-```
-{
-    "is_success": true
-}
-```
+### STEP 3-3: Using init tasks
+* uncomment "init_events(models)" in app/conf/index.py
 
-## Page Query Example (journey API)
-
-### Simple query
-```
-http://127.0.0.1:5000/journey/actors/1/events?page_size=2&page=1
-```
-
-```
-{
-  "next_page": {
-    "has_next": true,
-    "page": 2,
-    "page_size": 2
-  },
-  "result": [
-    {
-      "_id": "594885e4994aa607c71983b8",
-      "action": {
-        "time": 5.0,
-        "type": "love"
-      },
-      "actor": {
-        "id": "1",
-        "type": "customer_id"
-      }
-    },
-    {
-      "_id": "594885d1994aa607c71983b7",
-      "action": {
-        "time": 4.0,
-        "type": "love"
-      },
-      "actor": {
-        "id": "1",
-        "type": "customer_id"
-      }
-    }
-  ]
-}
-```
-
-### String equal query
-```
-http://localhost:5000/journey/actors/1/events?_page_size=2&_page=1&action.type=play
-```
-
-```
-{
-  "next_page": {
-    "has_next": false
-  },
-  "result": [
-    {
-      "_id": "59488592994aa607c71983b6",
-      "action": {
-        "time": 3.0,
-        "type": "play"
-      },
-      "actor": {
-        "id": "1",
-        "type": "customer_id"
-      }
-    }
-  ]
-}
-```
-
-### String in multiple values query
-```
-http://localhost:5000/journey/actors/1/events?_page_size=5&_page=1&action.type=play,love
-```
-
-```
-{
-  "next_page": {
-    "has_next": false
-  },
-  "result": [
-    {
-      "_id": "594885e4994aa607c71983b8",
-      "action": {
-        "time": 5.0,
-        "type": "love"
-      },
-      "actor": {
-        "id": "1",
-        "type": "customer_id"
-      }
-    },
-    {
-      "_id": "594885d1994aa607c71983b7",
-      "action": {
-        "time": 4.0,
-        "type": "love"
-      },
-      "actor": {
-        "id": "1",
-        "type": "customer_id"
-      }
-    },
-    {
-      "_id": "59488592994aa607c71983b6",
-      "action": {
-        "time": 3.0,
-        "type": "play"
-      },
-      "actor": {
-        "id": "1",
-        "type": "customer_id"
-      }
-    }
-  ]
-}
-```
+### STEP 3-4: Try journey api using POSTMAN
+1. start api
+2. try "list events by actor"
