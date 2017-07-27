@@ -2,11 +2,13 @@ from __future__ import print_function
 from __future__ import unicode_literals
 
 from bson import ObjectId
+from utils.basic import Model
+from paginator import MongoPaginator
 
 # https://stackoverflow.com/questions/20001229/how-to-get-posted-json-in-flask
 # http://codehandbook.org/pymongo-tutorial-crud-operation-mongodb/
 
-class MongoDBModel(object):
+class MongoDBModel(Model):
     coll_name = None
     fields = None
 

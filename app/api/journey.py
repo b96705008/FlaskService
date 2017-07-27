@@ -5,7 +5,7 @@ from flask import Blueprint, request, jsonify
 
 import json
 from kafka import KafkaConsumer, KafkaProducer
-from utils.query import build_mongo_query_cond
+from utils.mongodb import parse_query_to_mongo_cond
 
 
 def get_api(config, tools, models):
@@ -16,7 +16,6 @@ def get_api(config, tools, models):
     cache = tools['cache']
     mongo = tools['mongo']
     auth = tools['auth']
-    pubsub = tools['pubsub']
     event_model = models['events']
 
     # controller
@@ -34,7 +33,7 @@ def get_api(config, tools, models):
         page = int(request.args.get('_page', default=1))
 
         # parse condition
-        cond = build_mongo_query_cond(request.args, {
+        cond = parse_query_to_mongo_cond(request.args, {
                 'actor.id': actor_id
             })
         output = event_model.query_by_page(cond, pagesize, page)
@@ -50,8 +49,9 @@ def get_api(config, tools, models):
     @ctrler.route('/events', methods=['POST'])
     def send_new_event():
         # async operation
+        pub = tools['pubsub']['producer']
         event = request.get_json()
-        pubsub.publish(event)
+        pub.publish(event)
         return jsonify({'status': 'message is sent to backend for processing', 'event': event}), 201
 
 

@@ -3,18 +3,20 @@ from __future__ import unicode_literals
 
 from bson import ObjectId
 
-from utils.model import MongoDBModel
-from utils.query import PageQuery
+from utils.mongodb import MongoDBModel
+from utils.mongodb import MongoPaginator
 
 
 class EventModel(MongoDBModel):
     coll_name = 'events'
     fields = ['actor', 'action', 'object', 'channel']
+    
 
     def query_by_page(self, cond, pagesize, page):
         query = self.collection \
             .find(cond) \
             .sort('action.time', -1)
 
-        page_query = PageQuery(pagesize, page, query)
-        return page_query.get_output()
+        paginator = MongoPaginator(pagesize, page, query)
+
+        return paginator.get_output()

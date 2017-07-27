@@ -2,13 +2,12 @@ from __future__ import print_function
 from __future__ import unicode_literals
 
 
-class PageQuery(object):
+class Paginator(object):
 
-    def __init__(self, pagesize=10, page=1, basic_query=None):
+    def __init__(self, pagesize=10, page=1):
         self.params = {
             'pagesize': pagesize,
-            'page': page,
-            'basic_query': basic_query
+            'page': page
         }
         self.has_next = True
 
@@ -16,11 +15,6 @@ class PageQuery(object):
         if name in self.params:
             self.params[name] = value
         return self
-
-    @staticmethod
-    def __transform_doc(doc):
-        doc['_id'] = str(doc['_id'])
-        return doc
 
     @property
     def skip(self):
@@ -30,7 +24,7 @@ class PageQuery(object):
     def limit(self):
         return self.params['pagesize'] + 1
 
-    def __get_next_page(self):
+    def get_next_page(self):
         next_page = {
             'has_next': self.has_next
         }
@@ -41,26 +35,24 @@ class PageQuery(object):
 
         return next_page
 
+    def query_data(self):
+        raise NotImplementedError
+
+    def build_output(self, results):
+        output = {
+            'data_count': len(results),
+            'result': results,
+            'next_page': self.get_next_page()
+        }
+        return output
+
     def get_output(self):
-        if not self.params['basic_query']:
-            raise Exception("bascic query should be given.")
-
-        self.page_query = self.params['basic_query'] \
-            .skip(self.skip) \
-            .limit(self.limit)
-
-        results = map(self.__transform_doc, self.page_query)
+        results = self.query_data()
 
         if len(results) < self.limit:
             self.has_next = False
 
         results = results[:self.params['pagesize']]
-        data_count = len(results)
-        next_page = self.__get_next_page()
-        output = {
-            'data_count': data_count,
-            'result': results,
-            'next_page': next_page
-        }
+        output = self.build_output(results)
 
         return output

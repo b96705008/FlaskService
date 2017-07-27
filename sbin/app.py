@@ -5,10 +5,10 @@ import sys
 import configparser
 from flask import Flask
 from flask import jsonify, make_response
-
 from pymongo import MongoClient
 
 from conf import configure_app
+
 
 # config
 conf_path = sys.argv[1]
@@ -27,6 +27,7 @@ def not_found(error):
 if __name__ == '__main__':
     HOST = config.get('client', 'host')
     PORT = config.getint('client', 'port')
+    
     # journey
     for api in apis:
         print('register API: {}'.format(api['prefix']))
