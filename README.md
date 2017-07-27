@@ -9,17 +9,16 @@
 * app/conf: flask app initial setting (cache, mongo, auth...)
 * app/model: model which connect to MongoDB (or others)
 * app/api: flask blueprint route and controller
-* app/utils: model, page query related lib
+* app/subscriber: subscribers which process async message from Kafka
+* app/utils: mongodb, kafka, paginator related utilities
 
 ## Functions
 * PyMongo
 * CORS
-* Cache (local or redis)
+* Cache (local or Redis)
 * Auth
 * Page Query
-
-### TODO
-* Process async message using Kafka
+* PubSub (Process async message using Kafka)
 
 ## How to start?
 

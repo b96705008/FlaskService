@@ -39,7 +39,7 @@ def configure_app(app, config):
         print('register Subscribers...')
         register_subscribers(config, tools, models)
 
-    if config.get('hippo', 'env') == 'dev':
+    if config.getboolean('hippo', 'refresh_data'):
         init_tasks(models)
         init_events(models)
 
