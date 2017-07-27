@@ -5,7 +5,4 @@ from bson import ObjectId
 
 from utils.mongodb import MongoDBModel
 
-
-class TaskModel(MongoDBModel):
-    coll_name = 'tasks'
-    fields = ['title', 'description', 'done']
+## TODO: TaskModel

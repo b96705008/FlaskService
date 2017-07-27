@@ -7,7 +7,6 @@ from flask import Blueprint, request, jsonify, abort, make_response, url_for, cu
 def get_api(config, tools, models):
     # config
     API_NAME = config.get('api_todo', 'name')
-    cache = tools['cache']
     mongo = tools['mongo']
     task_model = models['tasks']
 
@@ -16,47 +15,27 @@ def get_api(config, tools, models):
 
     @ctrler.route('/tasks', methods=['GET'])
     def list_tasks():
-        tasks = task_model.find()
-        return jsonify({'tasks': tasks})
+        # TODO
 
 
     @ctrler.route('/tasks/<task_id>', methods=['GET'])
     def get_task(task_id):
-        task = task_model.find_by_id(task_id)
-        if task is None:
-            abort(404)
-        return jsonify({'task': task})
+        # TODO
 
 
     @ctrler.route('/tasks', methods=['POST'])
     def create_task():
-        content = request.get_json()
-        task = task_model.create(content)
-        if task is None:
-            abort(400)
-        return jsonify({'task': task}), 201
+        # TODO
 
 
     @ctrler.route('/tasks/<task_id>', methods=['PUT'])
     def update_task(task_id):
-        if not request.json:
-            abort(400)
-
-        content = request.get_json()
-        task = task_model.update_by_id(task_id, content)
-        if task is None:
-            abort(404)
-        else:
-            return jsonify({'task': task})
+        # TODO
 
 
     @ctrler.route('/tasks/<task_id>', methods=['DELETE'])
     def delete_task(task_id):
-        is_success = task_model.remove_by_id(task_id)
-        if is_success:
-            return jsonify({'is_success': True})
-        else:
-            abort(404)
+        # TODO
 
 
     return {'prefix': '/'+API_NAME, 'ctrler': ctrler}
