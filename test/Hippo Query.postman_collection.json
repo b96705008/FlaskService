@@ -1,0 +1,196 @@
+{
+	"variables": [],
+	"info": {
+		"name": "Hippo Query",
+		"_postman_id": "af7f5010-325e-3592-61f7-3ea4d5c44b52",
+		"description": "",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "journey",
+			"description": "",
+			"item": [
+				{
+					"name": "list events by actor",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": {
+								"username": "root",
+								"password": "1234",
+								"saveHelperData": true,
+								"showPassword": false
+							}
+						},
+						"url": {
+							"raw": "http://localhost:5000/journey/actors/Jenny/events?_page_size=2&_page=3",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"journey",
+								"actors",
+								"Jenny",
+								"events"
+							],
+							"query": [
+								{
+									"key": "_page_size",
+									"value": "2",
+									"equals": true,
+									"description": ""
+								},
+								{
+									"key": "_page",
+									"value": "3",
+									"equals": true,
+									"description": ""
+								}
+							],
+							"variable": []
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Basic cm9vdDoxMjM0",
+								"description": ""
+							}
+						],
+						"body": {},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "list all events",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": {
+								"username": "root",
+								"password": "1234",
+								"saveHelperData": true,
+								"showPassword": false
+							}
+						},
+						"url": "http://localhost:5000/journey/events",
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Basic cm9vdDoxMjM0",
+								"description": ""
+							}
+						],
+						"body": {},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "publish event",
+					"request": {
+						"url": "http://localhost:5000/journey/events",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"action\": {\n        \"time\": 3,\n        \"type\": \"save money\"\n    },\n    \"actor\": {\n        \"id\": \"3\",\n        \"type\": \"customer_id\"\n    }\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "todo",
+			"description": "",
+			"item": [
+				{
+					"name": "list tasks",
+					"request": {
+						"url": "http://localhost:5000/todo/tasks",
+						"method": "GET",
+						"header": [],
+						"body": {},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "get task by id",
+					"request": {
+						"url": "http://localhost:5000/todo/tasks/59798f2ec4129835a3a4516a",
+						"method": "GET",
+						"header": [],
+						"body": {},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "create one task",
+					"request": {
+						"url": "http://localhost:5000/todo/tasks",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"title\": \"Love story\",\n    \"description\": \"So great!\",\n    \"done\": false,\n    \"xxxx\": \"XXXXX\"\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "update task by id",
+					"request": {
+						"url": "http://localhost:5000/todo/tasks/59702bbdc412980aaa5aad93",
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"description\": \"Wow!\",\n    \"done\": true,\n    \"title\": \"Spark!\",\n    \"error\": \"not update\"\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "delete task by id",
+					"request": {
+						"url": "http://localhost:5000/todo/tasks/59702bbdc412980aaa5aad93",
+						"method": "DELETE",
+						"header": [],
+						"body": {},
+						"description": ""
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
