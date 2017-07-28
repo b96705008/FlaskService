@@ -8,7 +8,7 @@ else
 	echo "var is set to '$1'";
 fi
 
-#SERVICE_HOME=
+export SERVICE_HOME="$(cd "`dirname "$0"`"/..; pwd)"
 export PYTHONPATH=${PYTHONPATH}:${SERVICE_HOME}/app
 
 CONF_PATH=${SERVICE_HOME}/etc/${ENV}.cfg
