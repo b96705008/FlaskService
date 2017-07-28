@@ -22,12 +22,6 @@
 
 ## How to start?
 
-1. Set this app folder root path
-```
-export SERVICE_NAME=${PWD}
-```
-
-2. Start app with config
 ```
 ./bin/run.sh [cfg name or default.cfg]
 ```
